@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Listado de Eventos</h1>
+
+        <table class="table table-striped table-bordered">
+            <thead class="table-dark">
+            <tr>
+                <th>Nombre</th>
+                <th>Descripcion</th>
+                <th>Fecha</th>
+                <th>Hora inicio</th>
+                <th>Hora fin</th>
+                <th>Sala</th>
+                <th>Estado</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for evento in eventos %}
+                <tr>
+                    <td>{{ evento.titulo }}</td>
+                    <td>{{ evento.descripcion }}</td>
+                    <td>{{ evento.fecha|date('d-m-Y') }}</td>
+                    <td>{{ evento.horaInicio|date('H:i') }}</td>
+                    <td>{{ evento.horaFin|date('H:i') }}</td>
+                    <td>{{ evento.sala.nombre}}</td>
+                    <td> {{ evento.fecha|date('d-m-Y') == "now"|date('d-m-Y') ? 'Ocupado' : 'Libre' }}</td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center">No hay eventos registrados.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
