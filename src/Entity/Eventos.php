@@ -33,6 +33,14 @@ class Eventos
     #[ORM\JoinColumn(nullable: false)]
     private ?Salas $sala = null;
 
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Usuario $creador = null;
+
+    #[ORM\ManyToOne]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Usuario $organizador = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -106,6 +114,30 @@ class Eventos
     public function setSala(?Salas $sala): static
     {
         $this->sala = $sala;
+
+        return $this;
+    }
+
+    public function getCreador(): ?Usuario
+    {
+        return $this->creador;
+    }
+
+    public function setCreador(?Usuario $creador): static
+    {
+        $this->creador = $creador;
+
+        return $this;
+    }
+
+    public function getOrganizador(): ?Usuario
+    {
+        return $this->organizador;
+    }
+
+    public function setOrganizador(?Usuario $organizador): static
+    {
+        $this->organizador = $organizador;
 
         return $this;
     }

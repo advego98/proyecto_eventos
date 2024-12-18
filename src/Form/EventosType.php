@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Eventos;
 use App\Entity\Salas;
+use App\Entity\Usuario;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -28,6 +29,10 @@ class EventosType extends AbstractType
             ])
             ->add('sala', EntityType::class, [
                 'class' => Salas::class,
+                'choice_label' => 'nombre',
+            ])
+            ->add('organizador', EntityType::class, [
+                'class' => Usuario::class,
                 'choice_label' => 'nombre',
             ])
             ->add('guardar', SubmitType::class)

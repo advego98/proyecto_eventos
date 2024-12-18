@@ -16,6 +16,7 @@
                 <th>Hora fin</th>
                 <th>Sala</th>
                 <th>Estado</th>
+                <th>Organizador</th>
                 <th>Acciones</th>
             </tr>
             </thead>
@@ -40,6 +41,7 @@
                         {% endif%}
 
                     </td>
+                    <td>{{ evento.organizador.nombre }}</td>
                     <td>
                         <form action="{{ path('app_eventos_editar', { id: evento.id }) }}" method="GET" style="display:inline;">
                             <button type="submit" class="btn btn-primary btn-sm">Editar</button>

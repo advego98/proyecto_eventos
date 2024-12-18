@@ -20,6 +20,8 @@ class EventosController extends AbstractController
     #[Route('/eventos', name: 'app_eventos')]
     public function index(EventosRepository $eventosRepository): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $eventos = $eventosRepository->findAll();
 
         return $this->render('eventos/index.html.twig', [
@@ -37,6 +39,8 @@ class EventosController extends AbstractController
     #[Route('/eventos/nuevo', name: 'app_eventos_nuevo')]
     public function nuevoEvento(EventosRepository $eventosRepository, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+
         $eventos = new Eventos();
 
         $form = $this->createForm(EventosType::class, $eventos);
@@ -44,7 +48,8 @@ class EventosController extends AbstractController
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            $user = $this->getUser();
+            $eventos->setCreador($user);
             $eventosRepository->save($eventos);
 
             return $this->redirectToRoute('app_eventos');
@@ -57,9 +62,16 @@ class EventosController extends AbstractController
 
     }
 
+    /**
+     * @param Eventos $eventos
+     * @param EventosRepository $eventosRepository
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/eventos/{id}/editar', name: 'app_eventos_editar')]
     public function editarEvento(Eventos $eventos,EventosRepository $eventosRepository, Request $request): Response
     {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
 
         $form = $this->createForm(EventosType::class, $eventos);
         $form->handleRequest($request);

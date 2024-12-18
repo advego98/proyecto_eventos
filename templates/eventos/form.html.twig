@@ -3,6 +3,9 @@
 {% block body %}
     <div class="container mt-5">
         <h1 class="text-center mb-4">{{ titulo_form }}</h1>
+        <div class="mb-3">
+            <a href="{{ path('app_eventos') }}">Atras</a>
+        </div>
 
         {{ form(form) }}
     </div>
