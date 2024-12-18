@@ -16,6 +16,7 @@
                 <th>Hora fin</th>
                 <th>Sala</th>
                 <th>Estado</th>
+                <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
@@ -27,7 +28,23 @@
                     <td>{{ evento.horaInicio|date('H:i') }}</td>
                     <td>{{ evento.horaFin|date('H:i') }}</td>
                     <td>{{ evento.sala.nombre}}</td>
-                    <td> {{ evento.fecha|date('d-m-Y') == "now"|date('d-m-Y') ? 'Ocupado' : 'Libre' }}</td>
+                    <td>
+                        {% set fechaInicio = evento.fecha|date('d-m-Y')~ ' ' ~evento.horaInicio|date('H:i') %}
+                        {% set fechaFin = evento.fecha|date('d-m-Y')~ ' ' ~evento.horaFin|date('H:i') %}
+                        {% if  fechaInicio >= "now"|date('d-m-Y H:i')%}
+                            Proximamente
+                        {% elseif   fechaInicio <= "now"|date('d-m-Y H:i')  and fechaFin >= "now"|date('d-m-Y H:i')%}
+                            En curso
+                        {% else %}
+                            Terminado
+                        {% endif%}
+
+                    </td>
+                    <td>
+                        <form action="{{ path('app_eventos_editar', { id: evento.id }) }}" method="GET" style="display:inline;">
+                            <button type="submit" class="btn btn-primary btn-sm">Editar</button>
+                        </form>
+                    </td>
                 </tr>
             {% else %}
                 <tr>

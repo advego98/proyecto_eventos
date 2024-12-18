@@ -15,8 +15,8 @@ class EventosType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('titulo')
-            ->add('descripcion')
+            ->add('titulo', null, ['attr'=> ['maxlength' => 100, 'minlength' => 3]])
+            ->add('descripcion', null, ['attr'=> ['maxlength' => 255, 'minlength' => 3]])
             ->add('fecha', null, [
                 'widget' => 'single_text',
             ])
@@ -30,7 +30,7 @@ class EventosType extends AbstractType
                 'class' => Salas::class,
                 'choice_label' => 'nombre',
             ])
-            ->add('crear', SubmitType::class)
+            ->add('guardar', SubmitType::class)
         ;
     }
 

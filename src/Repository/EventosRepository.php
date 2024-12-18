@@ -6,6 +6,7 @@ use App\Entity\Eventos;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
+
 /**
  * @extends ServiceEntityRepository<Eventos>
  */
@@ -26,6 +27,23 @@ class EventosRepository extends ServiceEntityRepository
         $em->persist($eventos);
         $em->flush();
     }
+
+        public function isSalaOcupada($sala,$fecha,$hora_inicio,$hora_fin): ?Eventos
+        {
+            return $this->createQueryBuilder('e')
+                ->andWhere('e.sala = :sala')
+                ->andWhere('e.fecha = :fecha')
+                ->andWhere(
+                    $this->expr()->andX(
+                        $this->expr()->lt('e.hora_inicio',':hora_inicio'),
+                        $this->expr()->gt('e.hora_fin',':hora_fin')
+                    )
+                )
+                ->setParameter('sala', $sala)
+                ->getQuery()
+                ->getOneOrNullResult()
+            ;
+        }
 
 
     //    /**

@@ -52,6 +52,29 @@ class EventosController extends AbstractController
 
         return $this->render('eventos/form.html.twig', [
             'form' => $form->createView(),
+            'titulo_form' => 'Crear Evento',
+        ]);
+
+    }
+
+    #[Route('/eventos/{id}/editar', name: 'app_eventos_editar')]
+    public function editarEvento(Eventos $eventos,EventosRepository $eventosRepository, Request $request): Response
+    {
+
+        $form = $this->createForm(EventosType::class, $eventos);
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $eventosRepository->save($eventos);
+
+            return $this->redirectToRoute('app_eventos');
+        }
+
+        return $this->render('eventos/form.html.twig', [
+            'form' => $form->createView(),
+            'titulo_form' => 'Editar Evento',
         ]);
 
     }
